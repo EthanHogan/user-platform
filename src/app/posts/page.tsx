@@ -48,6 +48,7 @@ export default function PostsPage() {
             </TableHeader>
             <TableBody>
               <Suspense
+                key={Date.now()}
                 fallback={Array.from({ length: 10 }).map((_, index) => (
                   <TableRow key={"posts_skeleton-" + index}>
                     <TableCell>
