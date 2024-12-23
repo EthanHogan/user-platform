@@ -20,7 +20,6 @@ https://github.com/EthanHogan/user-platform.git
 - [Neon (Serverless PostgreSQL DB)](https://neon.tech/)
 - [Clerk (Auth/User Management)](https://clerk.com)
 - [Vercel (CI/CD, Hosting for Serverless Apps)](https://create.t3.gg/en/deployment/vercel)
-- [Axiom (Logging)](https://app.axiom.co)
 - [Upstash (Rate Limiter)](https://upstash.com)
 
 ## Steps to setting up a new project
@@ -66,15 +65,6 @@ pnpm install
   2. Go [here](https://vercel.com/ethanhogans-projects/user-platform/stores/integration/store_WLf9aFIL8ca0eMCg/settings) to get the env vars to copy to your local .env
   3. In VS Code, CTRL + Shift + F to find all instances of "user-platform" and replace with your project name, especially the tablePrefix value in server/db/schema.ts
   4. Now, you should be able to run `pnpm db:push` to initialize the posts table in your db. The commit and push to main to see the working deployment.
-- **Axiom:**
-  1. Create an `Axiom` account with your GitHub at https://app.axiom.co.
-  2. Navigate to Vercel Integrations at https://vercel.com/dashboard/integrations.
-  3. Click `Browse Marketplace`.
-  4. Search "Axiom" and add it.
-  5. Select the `Vercel` account you want to add the integration to, then click `Continue`.
-  6. Choose specific projects or all `Vercel` projects, then click `Continue`.
-  7. Click `Add Integration`.
-  8. Click `Connect to Vercel` in `Axiom` modal.
 
 ## Running the app
 
