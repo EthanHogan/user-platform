@@ -31,23 +31,8 @@ https://github.com/EthanHogan/user-platform.git
 pnpm install
 ```
 
-- `Next.js`, `Tailwind`, `Drizzle`, `tRPC`: These are already set up with the project.
+- `Next.js`, `Tailwind`, `Drizzle`: These are already set up with the project.
 - Ensure the project is in your GitHub.
-- **PlanetScale (setting up your own database for the project):** (_needs to be updated. Replaced by Vercel + Neon integration steps. Needs to be after Vercel project setup step._)
-  1. Sign in to [PlanetScale](https://planetscale.com).
-  2. Click `Create a New Database`.
-  3. Select the region for your DB, ideally close to where your `Vercel` functions will be deployed.
-  4. Name your DB (e.g., "userplatformdb").
-  5. Click the `Connect` button.
-  6. Change the `Connect with:` value to "Prisma" (at the time of writing this, "Drizzle" is not an option but this should still work with the "Prisma" option selected).
-  7. Copy the `DATABASE_URL` environment variable and paste it into your project's `.env` file.
-  8. In your terminal, run `npm run dbpush` to set the database schema based on the current schema in the `drizzle/schema.ts` file.
-  9. Run `npx drizzle-kit studio` in the terminal to view your database tables and data in the browser.
-- **PlanetScale (using the shared, multiproject hobbydb)** _(needs to detail how to get the Neon hobby-db DATABASE_URL and use that instead. No prefix steps should be needed)_
-  1. Add the `DATABASE_URL`, environment variable needed to connect to the hobbydb on [PlanetScale](https://planetscale.com). You can pull the variable from an existing project that also uses the hobbydb or go to PlanetScale and generate a new password for this application.
-  2. Update the `dbTablePrefix` value in `config.json` with the prefix of what you want your tables to be named with in the database. Also update any other application specific configs in `config.json`.
-  3. In your terminal, run `npm run dbpush` to set the database schema based on the current schema in the `drizzle/schema.ts` file.
-  4. Run `npx drizzle-kit studio` in the terminal to view your database tables and data in the browser.
 - **Clerk:**
   1. Navigate to [Clerk](https://dashboard.clerk.com) and sign in.
   2. Add an application (you may need to create a workspace first, e.g., "Personal").
@@ -69,13 +54,18 @@ pnpm install
   9. Select `.env`
   10. Copy both the `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
   11. Paste both of the environment variables into your `.env`.
-- **Vercel:** (_needs to be updated. To detail Neon DB setup and integration. Remove all PlanetScale mentions_)
+- **Vercel:**
   1. Create a new project in `Vercel` at https://vercel.com/new.
   2. Import your project from GitHub by finding it in the list and clicking "import."
-  3. Add the `DATABASE_URL`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` environment variables from your `.env` file to the `Environment Variables` section.
+  3. Add the `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` environment variables from your `.env` file to the `Environment Variables` section.
   4. Select `Production`, `Preview`, and `Development` environments (you can do this later after deployment at https://vercel.com/MyGitHubUsername/MyProjectName/settings/environment-variables if needed).
   5. Click `Deploy`.
   6. Set the function region to the region closest to your DB deployment at https://vercel.com/MyGitHubUsername/MyProjectName/settings/functions.
+- **Neon PostgreSQL + Vercel (using the shared, multiproject hobbydb):**
+  1. Go to "Storage" tab on your Vercel project and select "Connect" on the Neon hobby-db. This will add the necessary env vars to your Vercel project.
+  2. Go [here](https://vercel.com/ethanhogans-projects/user-platform/stores/integration/store_WLf9aFIL8ca0eMCg/settings) to get the env vars to copy to your local .env
+  3. In VS Code, CTRL + Shift + F to find all instances of "user-platform" and replace with your project name, especially the tablePrefix value in server/db/schema.ts
+  4. Now, you should be able to run `pnpm db:push` to initialize the posts table in your db. The commit and push to main to see the working deployment.
 - **Axiom:**
   1. Create an `Axiom` account with your GitHub at https://app.axiom.co.
   2. Navigate to Vercel Integrations at https://vercel.com/dashboard/integrations.
