@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { ActionResponse } from "~/actions/types/ActionResponse";
 import { db } from "~/server/db";
 import { NewPost, posts, postsInsertSchema } from "~/server/db/schema";
+import { ratelimit } from "~/server/ratelimit";
 
 export default async function submitPost(
   newPost: NewPost,
@@ -19,6 +20,15 @@ export default async function submitPost(
 
   if (userId !== newPost.userId) {
     throw new Error("You can only create posts for your own account");
+  }
+
+  const { success } = await ratelimit.limit(userId);
+
+  if (!success) {
+    return {
+      success: false,
+      message: "You have reached the rate limit for creating posts",
+    };
   }
 
   // validate newPost

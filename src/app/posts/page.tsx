@@ -35,7 +35,7 @@ export default function PostsPage() {
               </div>
             </div>
           </CardTitle>
-          <CardDescription>All posts from the database.</CardDescription>
+          <CardDescription>Posts from the database.</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
