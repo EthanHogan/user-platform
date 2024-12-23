@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { ActionResponse } from "~/actions/types/ActionResponse";
 import { db } from "~/server/db";
 import { NewPost, posts, postsInsertSchema } from "~/server/db/schema";
@@ -23,6 +23,15 @@ export default async function submitPost(
   }
 
   const { success } = await ratelimit.limit(userId);
+
+  const fullUser = await currentUser();
+
+  if (fullUser?.privateMetadata?.["can-post"] !== true) {
+    return {
+      success: false,
+      message: "You are not allowed to create posts. Account not whitelisted.",
+    };
+  }
 
   if (!success) {
     return {
