@@ -38,7 +38,6 @@ export default function PostsPage() {
           <CardDescription>All posts from the database.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="mb-4 flex justify-end"></div>
           <Table>
             <TableHeader>
               <TableRow>
@@ -81,7 +80,7 @@ const Posts = async () => {
   return posts.map((post) => (
     <TableRow key={post.id}>
       <TableCell className="font-medium">{post.id}</TableCell>
-      <TableCell>{post.name}</TableCell>
+      <TableCell>{post.content}</TableCell>
     </TableRow>
   ));
 };

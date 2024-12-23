@@ -44,7 +44,10 @@ export default function CreatePostDialog() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const submitResult = await submitPost({ name: values.post });
+    const submitResult = await submitPost({
+      userId: userId ?? "",
+      content: values.post,
+    });
 
     if (!submitResult.success) {
       return form.setError("post", {
