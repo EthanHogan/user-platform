@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { ThemeProvider } from "~/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -13,9 +14,20 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        {children}
+    <html
+      lang="en"
+      className={`${GeistSans.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-screen">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
