@@ -17,6 +17,10 @@ export default async function submitPost(
     throw new Error("You must be signed in to add an item to your cart");
   }
 
+  if (userId !== newPost.userId) {
+    throw new Error("You can only create posts for your own account");
+  }
+
   // validate newPost
   const validatedData = postsInsertSchema.safeParse(newPost);
   if (!validatedData.success) {
