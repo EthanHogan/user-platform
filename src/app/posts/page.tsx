@@ -71,7 +71,9 @@ export default function PostsPage() {
 }
 
 const Posts = async () => {
-  const posts = await db.query.posts.findMany();
+  const posts = await db.query.posts.findMany({
+    orderBy: (model, { desc }) => desc(model.id),
+  });
 
   // wait 3 seconds
   await new Promise((resolve) => setTimeout(resolve, 3000));

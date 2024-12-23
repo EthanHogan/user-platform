@@ -1,6 +1,8 @@
 "use client";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -24,6 +26,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import submitPost from "../_actions/submitPost";
 
 const formSchema = z.object({
   post: z.string().min(2).max(256),
@@ -31,6 +34,7 @@ const formSchema = z.object({
 
 export default function CreatePostDialog() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,10 +43,18 @@ export default function CreatePostDialog() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const submitResult = await submitPost({ name: values.post });
+
+    if (!submitResult.success) {
+      return form.setError("post", {
+        type: "manual",
+        message: submitResult.message,
+      });
+    }
     form.reset();
     setOpen(false);
+    router.refresh();
   }
 
   return (
@@ -62,6 +74,7 @@ export default function CreatePostDialog() {
             <FormField
               control={form.control}
               name="post"
+              disabled={form.formState.isSubmitting}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>New Post</FormLabel>
@@ -74,7 +87,9 @@ export default function CreatePostDialog() {
               )}
             />
             <DialogFooter>
-              <Button type="submit">Create Post</Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                Create Post
+              </Button>
             </DialogFooter>
           </form>
         </Form>
