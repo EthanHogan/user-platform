@@ -1,5 +1,13 @@
 import { Suspense } from "react";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
+import { Skeleton } from "~/components/ui/skeleton";
+import {
   Table,
   TableBody,
   TableCaption,
@@ -12,30 +20,42 @@ import { db } from "~/server/db";
 
 export default function PostsPage() {
   return (
-    <div className="border border-green-500 p-1">
-      <h2 className="text-xl">Posts Page</h2>
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <Suspense
-            fallback={
-              <tr>
-                <td>Loading...</td>
-              </tr>
-            }
-          >
-            <Posts />
-          </Suspense>
-        </TableBody>
-      </Table>
+    <div className="p-1">
+      <Card>
+        <CardHeader>
+          <CardTitle>Posts</CardTitle>
+          <CardDescription>All posts from the database.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Id</TableHead>
+                <TableHead>Name</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <Suspense
+                fallback={
+                  /* load 10 skeleton rows */
+                  Array.from({ length: 10 }).map((_, index) => (
+                    <TableRow key={"posts_skeleton-" + index}>
+                      <TableCell>
+                        <Skeleton className="h-5 w-[80px]" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-5 w-full" />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+              >
+                <Posts />
+              </Suspense>
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   );
 }

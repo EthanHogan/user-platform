@@ -11,10 +11,5 @@ export const metadata: Metadata = {
 export default function PostsLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <div className="border border-red-500 p-1">
-      <h1 className="text-2xl">Posts Layout</h1>
-      <div>{children}</div>
-    </div>
-  );
+  return <div className="p-2">{children}</div>;
 }
