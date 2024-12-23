@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { ThemeProvider } from "~/components/theme-provider";
+import { TopNav } from "~/components/top-nav";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -19,13 +20,14 @@ export default function RootLayout({
       className={`${GeistSans.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen">
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <TopNav />
           {children}
         </ThemeProvider>
       </body>
