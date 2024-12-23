@@ -27,6 +27,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import submitPost from "../_actions/submitPost";
+import { SignInButton, useAuth } from "@clerk/nextjs";
 
 const formSchema = z.object({
   post: z.string().min(2).max(256),
@@ -35,6 +36,7 @@ const formSchema = z.object({
 export default function CreatePostDialog() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { userId } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,6 +46,10 @@ export default function CreatePostDialog() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!userId) {
+      return;
+    }
+
     const submitResult = await submitPost({
       userId: userId ?? "",
       content: values.post,
@@ -55,9 +61,18 @@ export default function CreatePostDialog() {
         message: submitResult.message,
       });
     }
+
     form.reset();
     setOpen(false);
     router.refresh();
+  }
+
+  if (!userId) {
+    return (
+      <SignInButton>
+        <Button variant="outline">+</Button>
+      </SignInButton>
+    );
   }
 
   return (
@@ -77,12 +92,15 @@ export default function CreatePostDialog() {
             <FormField
               control={form.control}
               name="post"
-              disabled={form.formState.isSubmitting}
-              render={({ field }) => (
+              render={({ field, formState }) => (
                 <FormItem>
                   <FormLabel>New Post</FormLabel>
                   <FormControl>
-                    <Input placeholder="New Post Here..." {...field} />
+                    <Input
+                      placeholder="New Post Here..."
+                      disabled={formState.isSubmitting}
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>This is your new post.</FormDescription>
                   <FormMessage />

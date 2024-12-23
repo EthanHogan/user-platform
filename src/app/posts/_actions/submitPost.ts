@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@clerk/nextjs/server";
 import { ActionResponse } from "~/actions/types/ActionResponse";
 import { db } from "~/server/db";
 import { NewPost, posts, postsInsertSchema } from "~/server/db/schema";
@@ -8,6 +9,13 @@ export default async function submitPost(
   newPost: NewPost,
 ): Promise<ActionResponse> {
   console.log("NewPost submitted: ", newPost);
+
+  // check if user is authenticated
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("You must be signed in to add an item to your cart");
+  }
 
   // validate newPost
   const validatedData = postsInsertSchema.safeParse(newPost);
