@@ -36,8 +36,11 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       drizzle-orm:
-        specifier: ^0.33.0
-        version: 0.33.0(@types/react@18.3.18)(postgres@3.4.5)(react@18.3.1)
+        specifier: ^0.38.0
+        version: 0.38.2(@types/react@18.3.18)(postgres@3.4.5)(react@18.3.1)
+      drizzle-zod:
+        specifier: ^0.6.0
+        version: 0.6.0(drizzle-orm@0.38.2(@types/react@18.3.18)(postgres@3.4.5)(react@18.3.1))(zod@3.24.1)
       geist:
         specifier: ^1.3.0
         version: 1.3.1(next@15.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
@@ -1364,14 +1367,15 @@ packages:
     resolution: {integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==}
     hasBin: true
 
-  drizzle-orm@0.33.0:
-    resolution: {integrity: sha512-SHy72R2Rdkz0LEq0PSG/IdvnT3nGiWuRk+2tXZQ90GVq/XQhpCzu/EFT3V2rox+w8MlkBQxifF8pCStNYnERfA==}
+  drizzle-orm@0.38.2:
+    resolution: {integrity: sha512-eCE3yPRAskLo1WpM9OHpFaM70tBEDsWhwR/0M3CKyztAXKR9Qs3asZlcJOEliIcUSg8GuwrlY0dmYDgmm6y5GQ==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
-      '@cloudflare/workers-types': '>=3'
-      '@electric-sql/pglite': '>=0.1.1'
-      '@libsql/client': '*'
-      '@neondatabase/serverless': '>=0.1'
+      '@cloudflare/workers-types': '>=4'
+      '@electric-sql/pglite': '>=0.2.0'
+      '@libsql/client': '>=0.10.0'
+      '@libsql/client-wasm': '>=0.10.0'
+      '@neondatabase/serverless': '>=0.10.0'
       '@op-engineering/op-sqlite': '>=2'
       '@opentelemetry/api': ^1.4.1
       '@planetscale/database': '>=1'
@@ -1385,7 +1389,7 @@ packages:
       '@xata.io/client': '*'
       better-sqlite3: '>=7'
       bun-types: '*'
-      expo-sqlite: '>=13.2.0'
+      expo-sqlite: '>=14.0.0'
       knex: '*'
       kysely: '*'
       mysql2: '>=2'
@@ -1403,6 +1407,8 @@ packages:
       '@electric-sql/pglite':
         optional: true
       '@libsql/client':
+        optional: true
+      '@libsql/client-wasm':
         optional: true
       '@neondatabase/serverless':
         optional: true
@@ -1452,6 +1458,12 @@ packages:
         optional: true
       sqlite3:
         optional: true
+
+  drizzle-zod@0.6.0:
+    resolution: {integrity: sha512-7K1k7Y/5Jw9D4cTlrHL3mRTLg3oaglbi4VvBIYmSAtMvYkgqvusPtra7cnntMCe1r1cBcwxhlEkfiNdU23lp2g==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: '>=3.0.0'
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -3835,11 +3847,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.33.0(@types/react@18.3.18)(postgres@3.4.5)(react@18.3.1):
+  drizzle-orm@0.38.2(@types/react@18.3.18)(postgres@3.4.5)(react@18.3.1):
     optionalDependencies:
       '@types/react': 18.3.18
       postgres: 3.4.5
       react: 18.3.1
+
+  drizzle-zod@0.6.0(drizzle-orm@0.38.2(@types/react@18.3.18)(postgres@3.4.5)(react@18.3.1))(zod@3.24.1):
+    dependencies:
+      drizzle-orm: 0.38.2(@types/react@18.3.18)(postgres@3.4.5)(react@18.3.1)
+      zod: 3.24.1
 
   dunder-proto@1.0.1:
     dependencies:
