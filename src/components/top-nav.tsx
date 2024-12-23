@@ -12,7 +12,7 @@ export function TopNav() {
           <div className="flex">
             <div className="flex flex-shrink-0 items-center">
               <Link href="/" className="text-2xl font-bold text-primary">
-                user-platform
+                user<span className="text-blue-500">-</span>platform
               </Link>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
