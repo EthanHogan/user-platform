@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+import { db } from "~/server/db";
+
 import {
   Card,
   CardContent,
@@ -6,17 +8,19 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Skeleton } from "~/components/ui/skeleton";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { db } from "~/server/db";
+import { Skeleton } from "~/components/ui/skeleton";
+
+import CreatePostDialog from "./_components/create-post";
+
+export const dynamic = "force-dynamic";
 
 export default function PostsPage() {
   return (
@@ -27,6 +31,9 @@ export default function PostsPage() {
           <CardDescription>All posts from the database.</CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="mb-4 flex justify-end">
+            <CreatePostDialog />
+          </div>
           <Table>
             <TableHeader>
               <TableRow>
@@ -36,19 +43,16 @@ export default function PostsPage() {
             </TableHeader>
             <TableBody>
               <Suspense
-                fallback={
-                  /* load 10 skeleton rows */
-                  Array.from({ length: 10 }).map((_, index) => (
-                    <TableRow key={"posts_skeleton-" + index}>
-                      <TableCell>
-                        <Skeleton className="h-5 w-[80px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-5 w-full" />
-                      </TableCell>
-                    </TableRow>
-                  ))
-                }
+                fallback={Array.from({ length: 10 }).map((_, index) => (
+                  <TableRow key={"posts_skeleton-" + index}>
+                    <TableCell>
+                      <Skeleton className="h-5 w-[80px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-5 w-full" />
+                    </TableCell>
+                  </TableRow>
+                ))}
               >
                 <Posts />
               </Suspense>
