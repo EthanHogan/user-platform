@@ -72,6 +72,7 @@ export default function PostsPage() {
 const Posts = async () => {
   const posts = await db.query.posts.findMany({
     orderBy: (model, { desc }) => desc(model.id),
+    limit: 15,
   });
 
   // wait 3 seconds
