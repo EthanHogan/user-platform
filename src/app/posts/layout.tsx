@@ -13,7 +13,7 @@ export default function PostsLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="border border-red-500 p-1">
-      <h1>Posts Layout</h1>
+      <h1 className="text-2xl">Posts Layout</h1>
       <div>{children}</div>
     </div>
   );
