@@ -27,13 +27,18 @@ export default function PostsPage() {
     <div className="p-1">
       <Card>
         <CardHeader>
-          <CardTitle>Posts</CardTitle>
+          <CardTitle>
+            <div className="flex items-center justify-between">
+              <div>Posts</div>
+              <div>
+                <CreatePostDialog />
+              </div>
+            </div>
+          </CardTitle>
           <CardDescription>All posts from the database.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="mb-4 flex justify-end">
-            <CreatePostDialog />
-          </div>
+          <div className="mb-4 flex justify-end"></div>
           <Table>
             <TableHeader>
               <TableRow>
