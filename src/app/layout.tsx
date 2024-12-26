@@ -1,10 +1,12 @@
 import "~/styles/globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
-
-import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+
+import { ClerkProvider } from "@clerk/nextjs";
+import { GeistSans } from "geist/font/sans";
+
 import { ThemeProvider } from "~/components/theme-provider";
 import { TopNav } from "~/components/top-nav";
+import TanstackProvider from "~/components/TanstackProvider";
 
 export const metadata: Metadata = {
   title: "user-platform",
@@ -30,7 +32,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <TopNav />
-            {children}
+            <TanstackProvider>{children}</TanstackProvider>
           </ThemeProvider>
         </body>
       </html>
