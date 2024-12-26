@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -26,8 +25,8 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import submitPost from "../_actions/submitPost";
 import { SignInButton, useAuth } from "@clerk/nextjs";
+import usePostsData from "../hooks/usePostsData";
 
 const formSchema = z.object({
   post: z.string().min(2).max(256),
@@ -35,7 +34,6 @@ const formSchema = z.object({
 
 export default function CreatePostDialog() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const { userId } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,12 +43,14 @@ export default function CreatePostDialog() {
     },
   });
 
+  const { mutateAsync } = usePostsData();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!userId) {
       return;
     }
 
-    const submitResult = await submitPost({
+    const submitResult = await mutateAsync({
       userId: userId ?? "",
       content: values.post,
     });
@@ -64,7 +64,6 @@ export default function CreatePostDialog() {
 
     form.reset();
     setOpen(false);
-    router.refresh();
   }
 
   if (!userId) {

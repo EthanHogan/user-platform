@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { db } from "~/server/db";
 
 import {
   Card,
@@ -11,16 +10,15 @@ import {
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { Skeleton } from "~/components/ui/skeleton";
 
-import CreatePostDialog from "./_components/create-post";
-
-export const dynamic = "force-dynamic";
+import CreatePostDialog from "./_components/CreatePost";
+import PostsView from "./_components/PostsView";
+import getPosts from "./_actions/getPosts";
+import LoadingRow from "./_components/LoadingRow";
 
 export default function PostsPage() {
   return (
@@ -49,14 +47,7 @@ export default function PostsPage() {
               <Suspense
                 key={Date.now()}
                 fallback={Array.from({ length: 10 }).map((_, index) => (
-                  <TableRow key={"posts_skeleton-" + index}>
-                    <TableCell>
-                      <Skeleton className="h-5 w-[80px]" />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton className="h-5 w-full" />
-                    </TableCell>
-                  </TableRow>
+                  <LoadingRow key={index} />
                 ))}
               >
                 <Posts />
@@ -70,18 +61,7 @@ export default function PostsPage() {
 }
 
 const Posts = async () => {
-  const posts = await db.query.posts.findMany({
-    orderBy: (model, { desc }) => desc(model.id),
-    limit: 15,
-  });
+  const posts = await getPosts();
 
-  // wait 3 seconds
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
-  return posts.map((post) => (
-    <TableRow key={post.id}>
-      <TableCell className="font-medium">{post.id}</TableCell>
-      <TableCell>{post.content}</TableCell>
-    </TableRow>
-  ));
+  return <PostsView posts={posts} />;
 };
