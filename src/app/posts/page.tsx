@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { unstable_cache } from "next/cache";
 
 import {
   Card,
@@ -18,9 +19,8 @@ import {
 import CreatePostDialog from "./_components/CreatePost";
 import PostsView from "./_components/PostsView";
 import getPosts from "./_actions/getPosts";
-import LoadingRow from "./_components/LoadingRow";
 
-export default function PostsPage() {
+export default async function PostsPage() {
   return (
     <div className="p-1">
       <Card>
@@ -44,14 +44,7 @@ export default function PostsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <Suspense
-                key={Date.now()}
-                fallback={Array.from({ length: 10 }).map((_, index) => (
-                  <LoadingRow key={index} />
-                ))}
-              >
-                <Posts />
-              </Suspense>
+              <Posts />
             </TableBody>
           </Table>
         </CardContent>
@@ -61,7 +54,12 @@ export default function PostsPage() {
 }
 
 const Posts = async () => {
-  const posts = await getPosts();
+  const getCachedPosts = unstable_cache(
+    async () => getPosts(),
+    ["posts"],
+    { revalidate: 60 }, // Cache for 60 seconds
+  );
+  const posts = await getCachedPosts();
 
   return <PostsView posts={posts} />;
 };
