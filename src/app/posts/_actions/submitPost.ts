@@ -71,6 +71,8 @@ export default async function submitPost(
     };
   }
 
+  revalidatePath("/posts");
+
   return {
     success: true,
     message: "Post created successfully",
