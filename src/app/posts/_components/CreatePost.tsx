@@ -83,7 +83,7 @@ export default function CreatePostDialog() {
         <DialogHeader>
           <DialogTitle>Create Post</DialogTitle>
           <DialogDescription>
-            Create a new post. Click save when you're done.
+            Create a new post. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

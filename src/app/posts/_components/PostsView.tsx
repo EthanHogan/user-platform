@@ -1,14 +1,14 @@
 "use client";
 
 import { TableCell, TableRow } from "~/components/ui/table";
-import { Post } from "~/server/db/schema";
+import { type Post } from "~/server/db/schema";
 import usePostsData from "../hooks/usePostsData";
 import LoadingRow from "./LoadingRow";
 
 export default function PostsView({ posts }: { posts: Post[] }) {
   const { data, isRefetching } = usePostsData();
 
-  const postsData = data || posts;
+  const postsData = data ?? posts;
 
   return (
     <>

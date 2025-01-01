@@ -2,6 +2,6 @@ export interface ActionResponse {
   success: boolean;
   message: string;
   errors?: {
-    [K in keyof any]?: string[];
+    [K in keyof never]?: string[];
   };
 }

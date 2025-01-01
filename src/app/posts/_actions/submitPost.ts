@@ -1,9 +1,10 @@
 "use server";
 
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { ActionResponse } from "~/actions/types/ActionResponse";
+import { revalidatePath } from "next/cache";
+import { type ActionResponse } from "~/actions/types/ActionResponse";
 import { db } from "~/server/db";
-import { NewPost, posts, postsInsertSchema } from "~/server/db/schema";
+import { type NewPost, posts, postsInsertSchema } from "~/server/db/schema";
 import { ratelimit } from "~/server/ratelimit";
 
 export default async function submitPost(

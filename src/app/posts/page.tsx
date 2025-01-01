@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { unstable_cache } from "next/cache";
 
 import {
