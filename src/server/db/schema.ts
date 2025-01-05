@@ -6,6 +6,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import {
   index,
   integer,
+  pgTable,
   pgTableCreator,
   timestamp,
   varchar,
@@ -20,8 +21,8 @@ import {
 const tablePrefix = "user-platform";
 export const createTable = pgTableCreator((name) => `${tablePrefix}_${name}`);
 
-export const posts = createTable(
-  "post",
+export const posts = pgTable(
+  "posts",
   {
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
     userId: varchar("user_id", { length: 256 }).notNull(),
@@ -33,9 +34,7 @@ export const posts = createTable(
       () => new Date(),
     ),
   },
-  (example) => ({
-    userId: index("userId_idx").on(example.userId),
-  }),
+  (post) => [index("userId_idx").on(post.userId)],
 );
 
 export const postsSelectSchema = createSelectSchema(posts);
