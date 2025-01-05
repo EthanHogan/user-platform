@@ -21,7 +21,7 @@ import {
 const tablePrefix = "user-platform";
 export const createTable = pgTableCreator((name) => `${tablePrefix}_${name}`);
 
-export const posts = pgTable(
+export const posts = createTable(
   "posts",
   {
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
@@ -34,7 +34,7 @@ export const posts = pgTable(
       () => new Date(),
     ),
   },
-  (post) => [index("userId_idx").on(post.userId)],
+  (post) => [index(`${tablePrefix}-userId-idx`).on(post.userId)],
 );
 
 export const postsSelectSchema = createSelectSchema(posts);
