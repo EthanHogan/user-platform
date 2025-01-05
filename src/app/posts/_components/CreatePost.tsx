@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import type { z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -27,10 +27,9 @@ import {
 import { Input } from "~/components/ui/input";
 import { SignInButton, useAuth } from "@clerk/nextjs";
 import usePostsData from "../hooks/usePostsData";
+import { postsInsertSchema } from "~/server/db/schema";
 
-const formSchema = z.object({
-  post: z.string().min(2).max(256),
-});
+const formSchema = postsInsertSchema.pick({ content: true });
 
 export default function CreatePostDialog() {
   const [open, setOpen] = useState(false);
@@ -39,7 +38,7 @@ export default function CreatePostDialog() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      post: "",
+      content: "",
     },
   });
 
@@ -52,11 +51,11 @@ export default function CreatePostDialog() {
 
     const submitResult = await mutateAsync({
       userId: userId ?? "",
-      content: values.post,
+      content: values.content,
     });
 
     if (!submitResult.success) {
-      return form.setError("post", {
+      return form.setError("content", {
         type: "manual",
         message: submitResult.message,
       });
@@ -90,7 +89,7 @@ export default function CreatePostDialog() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="post"
+              name="content"
               render={({ field, formState }) => (
                 <FormItem>
                   <FormLabel>New Post</FormLabel>
