@@ -24,13 +24,17 @@ export default function usePostsData() {
       const previousPosts = queryClient.getQueryData(["posts"]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["posts"], (old: Post[]) => [
-        {
-          ...newPost,
-          createdAt: new Date(),
-        },
-        ...old,
-      ]);
+      queryClient.setQueryData(
+        ["posts"],
+        (old: Post[]) =>
+          [
+            {
+              ...newPost,
+              created_at: new Date(),
+            },
+            ...old,
+          ] satisfies (Post | NewPost)[],
+      );
 
       // Return a context object with the snapshotted value
       return { previousPosts };
