@@ -52,7 +52,7 @@ export default function CreatePostDialog() {
     }
 
     void mutateAsync({
-      userId: userId,
+      user_id: userId,
       content: values.content,
     });
 

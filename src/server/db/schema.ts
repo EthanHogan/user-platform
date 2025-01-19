@@ -2,15 +2,14 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import { type InferInsertModel, type InferSelectModel, sql } from "drizzle-orm";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import {
   index,
   integer,
-  pgTable,
   pgTableCreator,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -25,16 +24,16 @@ export const posts = createTable(
   "posts",
   {
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-    userId: varchar("user_id", { length: 256 }).notNull(),
+    user_id: varchar("user_id", { length: 256 }).notNull(),
     content: varchar("name", { length: 280 }).notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
+    created_at: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+    update_at: timestamp("updated_at", { withTimezone: true }).$onUpdate(
       () => new Date(),
     ),
   },
-  (post) => [index(`${tablePrefix}-userId-idx`).on(post.userId)],
+  (post) => [index(`${tablePrefix}-posts-user_id-idx`).on(post.user_id)],
 );
 
 export const postsSelectSchema = createSelectSchema(posts);
