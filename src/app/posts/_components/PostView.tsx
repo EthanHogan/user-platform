@@ -1,10 +1,25 @@
-import { TableCell, TableRow } from "~/components/ui/table";
+import { format } from "date-fns";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { type Post } from "~/server/db/schema";
 
 export default function PostView({ post }: { post: Post }) {
   return (
-    <TableRow>
-      <TableCell>{post.content}</TableCell>
-    </TableRow>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <div className="flex items-center justify-between">
+            <div>{format(post.createdAt, "MM/dd/yyyy HH:mm")}</div>
+          </div>
+        </CardTitle>
+        <CardDescription></CardDescription>
+      </CardHeader>
+      <CardContent>{post.content}</CardContent>
+    </Card>
   );
 }

@@ -5,20 +5,13 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/table";
 
 import CreatePostDialog from "./_components/CreatePost";
 import Posts from "./_components/Posts";
 
 export default async function PostsPage() {
   return (
-    <div className="p-1">
+    <div className="mx-auto max-w-screen-sm p-1">
       <Card>
         <CardHeader>
           <CardTitle>
@@ -34,16 +27,7 @@ export default async function PostsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Posts</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <Posts />
-            </TableBody>
-          </Table>
+          <Posts />
         </CardContent>
       </Card>
     </div>
