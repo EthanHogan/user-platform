@@ -14,7 +14,7 @@ export default function PostView({ post }: { post: Post }) {
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between">
-            <div>{format(post.createdAt, "MM/dd/yyyy HH:mm")}</div>
+            <div>{format(post.createdAt, "MM/dd/yyyy hh:mm a")}</div>
           </div>
         </CardTitle>
         <CardDescription></CardDescription>
