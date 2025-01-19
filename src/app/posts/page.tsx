@@ -1,5 +1,3 @@
-import { unstable_cache } from "next/cache";
-
 import {
   Card,
   CardContent,
@@ -16,8 +14,7 @@ import {
 } from "~/components/ui/table";
 
 import CreatePostDialog from "./_components/CreatePost";
-import PostsView from "./_components/PostsView";
-import getPosts from "./_actions/getPosts";
+import Posts from "./_components/Posts";
 
 export default async function PostsPage() {
   return (
@@ -32,14 +29,15 @@ export default async function PostsPage() {
               </div>
             </div>
           </CardTitle>
-          <CardDescription>Posts from the database.</CardDescription>
+          <CardDescription>
+            Posts from the database. (artificial 3s delay)
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Id</TableHead>
-                <TableHead>Name</TableHead>
+                <TableHead>Posts</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -51,14 +49,3 @@ export default async function PostsPage() {
     </div>
   );
 }
-
-const Posts = async () => {
-  const getCachedPosts = unstable_cache(
-    async () => getPosts(),
-    ["posts"],
-    { revalidate: 60 }, // Cache for 60 seconds
-  );
-  const posts = await getCachedPosts();
-
-  return <PostsView posts={posts} />;
-};

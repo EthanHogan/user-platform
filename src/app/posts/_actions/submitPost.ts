@@ -1,7 +1,6 @@
 "use server";
 
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
 import { type ActionResponse } from "~/actions/types/ActionResponse";
 import { db } from "~/server/db";
 import { type NewPost, posts, postsInsertSchema } from "~/server/db/schema";
@@ -11,6 +10,18 @@ export default async function submitPost(
   newPost: NewPost,
 ): Promise<ActionResponse> {
   console.log("NewPost submitted: ", newPost);
+
+  // simulate network delay
+  console.warn("delaying submitPost by 1 second");
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  if (
+    newPost.content.toLowerCase() === "error" ||
+    newPost.content.toLowerCase() === "fail"
+  ) {
+    // simulate an error
+    throw new Error("Something went wrong");
+  }
 
   // check if user is authenticated
   const { userId } = await auth();
@@ -57,9 +68,6 @@ export default async function submitPost(
 
   console.log("NewPost validated: ", validatedData.data);
 
-  // simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   // insert newPost into the database
   try {
     await db.insert(posts).values(newPost);
@@ -70,8 +78,6 @@ export default async function submitPost(
       message: "Error creating new post",
     };
   }
-
-  revalidatePath("/posts");
 
   return {
     success: true,

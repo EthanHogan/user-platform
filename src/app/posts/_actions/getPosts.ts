@@ -8,6 +8,7 @@ export default async function getPosts() {
     limit: 15,
   });
 
+  console.warn("delaying getPosts by 3 seconds");
   await new Promise((resolve) => setTimeout(resolve, 3000));
 
   return posts;

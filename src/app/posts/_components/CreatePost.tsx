@@ -1,19 +1,20 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 
+import { SignInButton, useAuth } from "@clerk/nextjs";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "~/components/ui/dialog";
 import {
   Form,
@@ -25,9 +26,8 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { SignInButton, useAuth } from "@clerk/nextjs";
-import usePostsData from "../hooks/usePostsData";
 import { postsInsertSchema } from "~/server/db/schema";
+import usePostsData from "../hooks/usePostsData";
 
 const formSchema = postsInsertSchema.pick({ content: true });
 
@@ -42,24 +42,19 @@ export default function CreatePostDialog() {
     },
   });
 
-  const { mutateAsync } = usePostsData();
+  const {
+    mutation: { mutateAsync },
+  } = usePostsData();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!userId) {
       return;
     }
 
-    const submitResult = await mutateAsync({
-      userId: userId ?? "",
+    void mutateAsync({
+      userId: userId,
       content: values.content,
     });
-
-    if (!submitResult.success) {
-      return form.setError("content", {
-        type: "manual",
-        message: submitResult.message,
-      });
-    }
 
     form.reset();
     setOpen(false);
