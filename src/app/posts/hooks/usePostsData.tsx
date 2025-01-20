@@ -1,12 +1,15 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "~/hooks/use-toast";
 import { type NewPost, type Post } from "~/server/db/schema";
 import getPosts from "../_actions/getPosts";
 import submitPost from "../_actions/submitPost";
 
 export default function usePostsData() {
   const queryClient = useQueryClient();
+
+  const { toast } = useToast();
 
   const query = useQuery({
     queryKey: ["posts"],
@@ -42,6 +45,11 @@ export default function usePostsData() {
     // If the mutation fails,
     // use the context returned from onMutate to roll back
     onError: (err, newTodo, context) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to create post. Please try again.",
+      });
       queryClient.setQueryData(["posts"], context?.previousPosts);
     },
     // Always refetch after error or success:
