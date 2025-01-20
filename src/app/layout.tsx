@@ -3,11 +3,10 @@ import "~/styles/globals.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
 import { GeistSans } from "geist/font/sans";
-import { Toaster } from "~/components/ui/toaster";
 
-import TanstackProvider from "~/components/TanstackProvider";
-import { ThemeProvider } from "~/components/theme-provider";
+import { Providers } from "~/components/Providers";
 import { TopNav } from "~/components/top-nav";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "user-platform",
@@ -25,17 +24,20 @@ export default function RootLayout({
         className={`${GeistSans.variable}`}
         suppressHydrationWarning
       >
+        <head>
+          {process.env.NODE_ENV === "development" && (
+            <script
+              src="https://unpkg.com/react-scan/dist/auto.global.js"
+              async
+            />
+          )}
+        </head>
         <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <Providers>
             <TopNav />
-            <TanstackProvider>{children}</TanstackProvider>
-            <Toaster />
-          </ThemeProvider>
+            {children}
+          </Providers>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

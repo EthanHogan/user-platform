@@ -1,13 +1,13 @@
+import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 // @ts-expect-error no types available
 import drizzle from "eslint-plugin-drizzle";
 // @ts-expect-error no types available
 import reactCompiler from "eslint-plugin-react-compiler";
-import tsParser from "@typescript-eslint/parser";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +24,7 @@ const config = [
     "plugin:@typescript-eslint/stylistic-type-checked",
   ),
   {
+    ignores: ["convex/_generated/**"],
     plugins: {
       "@typescript-eslint": typescriptEslint,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
