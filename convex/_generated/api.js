@@ -7,7 +7,6 @@
  * To regenerate, run `npx convex dev`.
  * @module
  */
-
 import { anyApi } from "convex/server";
 
 /**

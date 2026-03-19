@@ -1,7 +1,5 @@
-import Link from "next/link";
-
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-
+import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 
 export function TopNav() {
