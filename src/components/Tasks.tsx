@@ -7,6 +7,12 @@ export default function Tasks() {
   const tasks = useQuery(api.tasks.get);
   const toggleTask = useMutation(api.tasks.toggleTask);
 
+  const isLoading = tasks === undefined;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex w-full max-w-screen-sm flex-col items-center gap-2">
       {tasks?.map(({ _id, text, isCompleted }) => (
