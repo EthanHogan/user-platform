@@ -16,12 +16,12 @@ export function TopNav() {
               </Link>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link
+              {/* <Link
                 href="/posts"
                 className="inline-flex items-center px-1 pt-1 text-sm font-medium text-primary"
               >
                 Posts
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="flex items-center gap-3">
