@@ -16,8 +16,7 @@ https://github.com/EthanHogan/user-platform.git
 
 - [Next.js (React Framework) (App Router)](https://nextjs.org)
 - [Tailwind CSS](https://tailwindcss.com)
-- [Drizzle ORM](https://orm.drizzle.team/)
-- [Neon (Serverless PostgreSQL DB)](https://neon.tech/)
+- [Convex (Serverless Database)](https://convex.dev/)
 - [Clerk (Auth/User Management)](https://clerk.com)
 - [Vercel (CI/CD, Hosting for Serverless Apps)](https://create.t3.gg/en/deployment/vercel)
 - [Upstash (Rate Limiter)](https://upstash.com)
@@ -30,7 +29,7 @@ https://github.com/EthanHogan/user-platform.git
 pnpm install
 ```
 
-- `Next.js`, `Tailwind`, `Drizzle`: These are already set up with the project.
+- `Next.js`, `Tailwind`: These are already set up with the project.
 - Ensure the project is in your GitHub.
 - **Clerk:**
   1. Navigate to [Clerk](https://dashboard.clerk.com) and sign in.
@@ -53,35 +52,22 @@ pnpm install
   9. Select `.env`
   10. Copy both the `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
   11. Paste both of the environment variables into your `.env`.
-- **Vercel:**
+- **Vercel:** (needs to be updated for Convex)
+
   1. Create a new project in `Vercel` at https://vercel.com/new.
   2. Import your project from GitHub by finding it in the list and clicking "import."
   3. Add the `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` environment variables from your `.env` file to the `Environment Variables` section.
   4. Select `Production`, `Preview`, and `Development` environments (you can do this later after deployment at https://vercel.com/MyGitHubUsername/MyProjectName/settings/environment-variables if needed).
   5. Click `Deploy`.
   6. Set the function region to the region closest to your DB deployment at https://vercel.com/MyGitHubUsername/MyProjectName/settings/functions.
-- **Neon PostgreSQL + Vercel (using the shared, multiproject hobbydb):**
-  1. Go to "Storage" tab on your Vercel project and select "Connect" on the Neon hobby-db. This will add the necessary env vars to your Vercel project.
-  2. Go [here](https://vercel.com/ethanhogans-projects/user-platform/stores/integration/store_WLf9aFIL8ca0eMCg/settings) to get the env vars to copy to your local .env
-  3. In VS Code, CTRL + Shift + F to find all instances of "user-platform" and replace with your project name, especially the tablePrefix value in server/db/schema.ts
-  4. Now, you should be able to run `pnpm db:push` to initialize the posts table in your db. The commit and push to main to see the working deployment.
+
+- **Convex:**
+  TODO: Add steps to setting up Convex
 
 ## Running the app
 
 ```sh
 pnpm dev
-```
-
-## Pushing Schema Changes to the Database
-
-```sh
-pnpm db:push
-```
-
-## Viewing DB
-
-```sh
-pnpm db:studio
 ```
 
 ## Deployment
@@ -91,25 +77,3 @@ Deployment should be as easy as pushing changes to `main` branch if a project ha
 ```sh
 git push
 ```
-
-## Running MySQL DB locally using Docker (_needs to be updated for PostgreSQL_)
-
-- **Docker:**
-  1. Spin up a container with an image that has mysql on it. If you run the command below, it will automatically install the latest version of the mysql image and startup a container.
-  - Swap the `user-platform-mysql` for whatever you want to call the container.
-  - Swap the `3333` for whatever port number you want to expose the container on.
-  - Swap `myPassword` with your password to the db.
-  ```sh
-  docker run --name user-platform-mysql -p 3333:3306 -e MYSQL_ROOT_PASSWORD=myPassword -d mysql
-  ```
-- **MySQL:**
-  1. Use MySQL Workbench to create your database schema. Note the name. For this example, lets say we name the schema `UserPlatform`.
-- **Drizzle:**
-  1. Update the `DATABASE_URL` line in the `.env` to the following format:
-  - `root` and `myPassword` are your DB credentials. You would have used them to connect to the DB in MySQL Workbench.
-  - Make sure the port number (`3333` in this example) matches the port number you exposed the Docker container on.
-  - The last thing after the slash is the name of the DB schema to connect to. `UserPlatform`, in this example.
-  ```sh
-   DATABASE_URL='mysql://root:myPassword@localhost:3333/UserPlatform'
-  ```
-  2. Update the other `DATABASE_...` variables with the DB info from the URL. Check `.env.example` for examples
