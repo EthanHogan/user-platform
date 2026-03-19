@@ -2,9 +2,6 @@ import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-// @ts-expect-error no types available
-import drizzle from "eslint-plugin-drizzle";
-// @ts-expect-error no types available
 import reactCompiler from "eslint-plugin-react-compiler";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -27,8 +24,6 @@ const config = [
     ignores: ["convex/_generated/**"],
     plugins: {
       "@typescript-eslint": typescriptEslint,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      drizzle,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       "react-compiler": reactCompiler,
     },
@@ -59,6 +54,7 @@ const config = [
         "warn",
         {
           argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
         },
       ],
 
@@ -70,20 +66,6 @@ const config = [
           checksVoidReturn: {
             attributes: false,
           },
-        },
-      ],
-
-      "drizzle/enforce-delete-with-where": [
-        "error",
-        {
-          drizzleObjectName: ["db", "ctx.db"],
-        },
-      ],
-
-      "drizzle/enforce-update-with-where": [
-        "error",
-        {
-          drizzleObjectName: ["db", "ctx.db"],
         },
       ],
 
