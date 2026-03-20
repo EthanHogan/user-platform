@@ -6,7 +6,9 @@
   "scripts": {
     "build": "next build",
     "check": "eslint src --max-warnings=0 && tsc --noEmit",
+    "convex": "npx convex dev",
     "dev": "next dev --turbo",
+    "dev:all": "concurrently \"npm run dev\" \"npm run convex\"",
     "lint": "eslint src --max-warnings=0",
     "lint:fix": "eslint src --fix",
     "preview": "next build && next start",
@@ -52,6 +54,7 @@
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.57.1",
     "@typescript-eslint/parser": "^8.57.1",
+    "concurrently": "^9.2.1",
     "eslint": "^10.0.3",
     "eslint-config-next": "^16.2.0",
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
