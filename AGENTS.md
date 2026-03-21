@@ -99,7 +99,6 @@ convex/             # Convex backend
 Example:
 ```typescript
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "~/lib/utils"
@@ -109,7 +108,7 @@ import { Button } from "~/components/ui/button"
 ### Tailwind CSS
 
 - Use shadcn/ui component patterns
-- Use CSS variables for colors (defined in `tailwind.config.ts`)
+- Use CSS variables for colors (defined in `src/styles/globals.css` via `@theme inline`)
 - Use `cn()` utility for conditional classes
 - Use `class-variance-authority` for component variants
 

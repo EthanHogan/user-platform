@@ -3,12 +3,8 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { Providers } from "~/components/Providers";
 import { TopNav } from "~/components/top-nav";
-import { Toaster } from "~/components/ui/toaster";
+import { Toaster } from "~/components/ui/sonner";
 import "~/styles/globals.css";
-import { Geist } from "next/font/google";
-import { cn } from "~/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "user-platform",
@@ -21,11 +17,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html
-        lang="en"
-        className={cn(GeistSans.variable, "font-sans", geist.variable)}
-        suppressHydrationWarning
-      >
+      <html lang="en" className={GeistSans.variable} suppressHydrationWarning>
         <head>
           {process.env.NODE_ENV === "development" && (
             <script
