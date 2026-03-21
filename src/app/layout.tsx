@@ -5,6 +5,10 @@ import { Providers } from "~/components/Providers";
 import { TopNav } from "~/components/top-nav";
 import { Toaster } from "~/components/ui/toaster";
 import "~/styles/globals.css";
+import { Geist } from "next/font/google";
+import { cn } from "~/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "user-platform",
@@ -19,7 +23,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${GeistSans.variable}`}
+        className={cn(GeistSans.variable, "font-sans", geist.variable)}
         suppressHydrationWarning
       >
         <head>
