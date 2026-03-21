@@ -3,7 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { Providers } from "~/components/Providers";
 import { TopNav } from "~/components/top-nav";
-import { Toaster } from "~/components/ui/toaster";
+import { Toaster } from "~/components/ui/sonner";
 import "~/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -17,11 +17,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html
-        lang="en"
-        className={`${GeistSans.variable}`}
-        suppressHydrationWarning
-      >
+      <html lang="en" className={GeistSans.variable} suppressHydrationWarning>
         <head>
           {process.env.NODE_ENV === "development" && (
             <script
